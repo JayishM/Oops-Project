@@ -1,0 +1,15 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: nightmarket-backend
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+nightmarket:
+  upload:
+    dir: ${UPLOAD_DIR:./uploads}
+  seed-data-enabled: ${SEED_DATA_ENABLED:true}
