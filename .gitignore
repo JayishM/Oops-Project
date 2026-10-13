@@ -1,0 +1,21 @@
+# Java / Maven
+backend/target/
+*.class
+
+# Android / Gradle
+.gradle/
+**/build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Runtime uploads / local env
+backend/uploads/
+uploads/
+.env
+
+# IDE
+.idea/
+*.iml
+.vscode/

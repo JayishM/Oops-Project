@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.NightMarket" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/nightmarket_navy</item>
+        <item name="colorPrimaryDark">@color/nightmarket_navy</item>
+        <item name="colorAccent">@color/nightmarket_blue</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/nightmarket_navy</item>
+        <item name="android:windowBackground">@color/nightmarket_background</item>
+    </style>
+</resources>
