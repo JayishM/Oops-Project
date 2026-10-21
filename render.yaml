@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: nightmarket-backend
+    env: java
+    plan: free
+    rootDir: backend
+    buildCommand: chmod +x ./mvnw && ./mvnw clean package -DskipTests
+    startCommand: java -jar target/nightmarket-backend-0.0.1-SNAPSHOT.jar
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false # Set in Render dashboard to MongoDB Atlas URI
+      - key: SEED_DATA_ENABLED
+        value: true

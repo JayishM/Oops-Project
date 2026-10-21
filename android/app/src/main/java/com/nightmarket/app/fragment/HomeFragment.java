@@ -108,6 +108,9 @@ public class HomeFragment extends Fragment implements ListingAdapter.OnListingCl
 
         btnRetry.setOnClickListener(v -> loadFeed());
 
+        // Header Options: API Endpoint / Connection settings
+        root.findViewById(R.id.btnHeaderMore).setOnClickListener(v -> showApiSettingsDialog());
+
         // Category Buttons (Figma Screen 01)
         root.findViewById(R.id.btnCatBooks).setOnClickListener(v -> filterCategory("TEXTBOOKS", "Books"));
         root.findViewById(R.id.btnCatTech).setOnClickListener(v -> filterCategory("ELECTRONICS", "Tech"));
@@ -264,5 +267,31 @@ public class HomeFragment extends Fragment implements ListingAdapter.OnListingCl
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).navigateToProductDetail(listing.getId());
         }
+    }
+
+    private void showApiSettingsDialog() {
+        android.widget.EditText input = new android.widget.EditText(requireContext());
+        input.setText(com.nightmarket.app.api.ApiClient.getBaseUrl());
+        input.setPadding(40, 30, 40, 30);
+
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("Marketplace API Settings")
+                .setMessage("Current backend base URL. Change to your Render HTTPS URL or local LAN address if needed:")
+                .setView(input)
+                .setPositiveButton("Save & Reconnect", (dialog, which) -> {
+                    String newUrl = input.getText().toString().trim();
+                    if (!newUrl.isEmpty()) {
+                        com.nightmarket.app.api.ApiClient.setBaseUrl(newUrl);
+                        loadFeed();
+                        Toast.makeText(getContext(), "Connecting to " + newUrl, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNeutralButton("Reset to Default", (dialog, which) -> {
+                    com.nightmarket.app.api.ApiClient.setBaseUrl(null);
+                    loadFeed();
+                    Toast.makeText(getContext(), "Reset to default endpoint", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }
