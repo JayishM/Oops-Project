@@ -12,6 +12,6 @@ services:
       - key: PORT
         value: 10000
       - key: MONGODB_URI
-        sync: false # Set in Render dashboard to MongoDB Atlas URI
+        value: mongodb+srv://jayishmundra_db_user:CWuZ0MDbsl9LnPrf@cluster0.ajyqhbb.mongodb.net/nightmarket?retryWrites=true&w=majority
       - key: SEED_DATA_ENABLED
         value: true

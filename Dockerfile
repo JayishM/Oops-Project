@@ -14,5 +14,6 @@ USER 10001:10001
 ENV PORT=8080
 ENV UPLOAD_DIR=/app/uploads
 ENV SEED_DATA_ENABLED=true
+ENV MONGODB_URI="mongodb+srv://jayishmundra_db_user:CWuZ0MDbsl9LnPrf@cluster0.ajyqhbb.mongodb.net/nightmarket?retryWrites=true&w=majority"
 EXPOSE 8080
 ENTRYPOINT ["sh", "-c", "exec java -Dserver.port=${PORT:-8080} -jar /app/app.jar"]
