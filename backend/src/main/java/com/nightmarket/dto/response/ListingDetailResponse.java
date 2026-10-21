@@ -11,8 +11,11 @@ public class ListingDetailResponse extends ListingSummaryResponse {
     private double sellerRating = 5.0;
     private int sellerSoldListingsCount;
     private boolean isOwner;
+<<<<<<< HEAD
     private String sellerPhone;
     private String sellerEmail;
+=======
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
 
     public ListingDetailResponse() {
         super();
@@ -65,10 +68,13 @@ public class ListingDetailResponse extends ListingSummaryResponse {
     public void setOwner(boolean owner) {
         isOwner = owner;
     }
+<<<<<<< HEAD
 
     public String getSellerPhone() { return sellerPhone; }
     public void setSellerPhone(String sellerPhone) { this.sellerPhone = sellerPhone; }
 
     public String getSellerEmail() { return sellerEmail; }
     public void setSellerEmail(String sellerEmail) { this.sellerEmail = sellerEmail; }
+=======
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
 }

@@ -3,7 +3,10 @@ package com.nightmarket.exception;
 import com.nightmarket.dto.response.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+<<<<<<< HEAD
 import org.springframework.dao.DataAccessException;
+=======
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -104,6 +107,7 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(ex.getMessage()));
     }
 
+<<<<<<< HEAD
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<ApiResponse<Void>> handleDatabaseUnavailable(DataAccessException ex) {
         log.error("MongoDB operation failed: {}", ex.getClass().getSimpleName());
@@ -111,6 +115,8 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error("MongoDB is unavailable. Check MONGODB_URI and confirm the database is reachable."));
     }
 
+=======
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
         log.error("Unhandled server exception: ", ex);

@@ -9,30 +9,48 @@ import com.nightmarket.dto.response.ListingDetailResponse;
 import com.nightmarket.dto.response.ListingSummaryResponse;
 import com.nightmarket.exception.DomainValidationException;
 import com.nightmarket.exception.ListingNotFoundException;
+<<<<<<< HEAD
 import com.nightmarket.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+=======
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
+<<<<<<< HEAD
 import java.util.stream.Collectors;
 
 /**
  * MongoDB-backed listing service.
+=======
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
+/**
+ * In-memory listing service — no database required.
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
  *
  * OOP Concepts:
  *   - Factory Method Pattern  : createProduct() instantiates category-specific subclasses.
  *   - Polymorphism            : getCategorySpecificSummary() and getSafetyChecklist() differ per subclass.
+<<<<<<< HEAD
  *   - Encapsulation           : domain mutations flow through Product methods.
  *   - Persistence             : ProductRepository stores each concrete product in MongoDB.
  *   - Exception Handling      : missing listings use ListingNotFoundException.
+=======
+ *   - Encapsulation           : store is private; all mutations go through public methods.
+ *   - Exception Handling      : throws ListingNotFoundException (custom checked-style exception).
+ *   - Collections Framework   : ConcurrentHashMap for thread-safe in-memory storage.
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
  */
 @Service
 public class SimpleListingService {
 
+<<<<<<< HEAD
     private static final Logger log = LoggerFactory.getLogger(SimpleListingService.class);
     private final ProductRepository productRepository;
     private final boolean seedDataEnabled;
@@ -59,6 +77,15 @@ public class SimpleListingService {
         } catch (Exception ex) {
             log.warn("MongoDB is not reachable; configure MONGODB_URI before using listing endpoints. {}",
                     ex.getClass().getSimpleName());
+=======
+    // In-memory store: listingId → Product
+    private final Map<String, Product> store = new ConcurrentHashMap<>();
+
+    // ─── Seed demo data on startup ─────────────────────────────────────────────
+    public SimpleListingService(@Value("${nightmarket.seed-data-enabled:true}") boolean seedDataEnabled) {
+        if (seedDataEnabled) {
+            seedDemoData();
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
         }
     }
 
@@ -77,7 +104,11 @@ public class SimpleListingService {
         tb.setCourseCode("CS301");
         tb.setAuthor("Cormen et al.");
         tb.setEdition("4th");
+<<<<<<< HEAD
         productRepository.save(tb);
+=======
+        store.put(tb.getId(), tb);
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
 
         Electronics calc = new Electronics();
         calc.setId(UUID.randomUUID().toString());
@@ -95,7 +126,11 @@ public class SimpleListingService {
         calc.setWarrantyMonths(3);
         calc.setIncludesAccessories(true);
         calc.setWorkingBattery(true);
+<<<<<<< HEAD
         productRepository.save(calc);
+=======
+        store.put(calc.getId(), calc);
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
 
         Electronics earphones = new Electronics();
         earphones.setId(UUID.randomUUID().toString());
@@ -113,7 +148,11 @@ public class SimpleListingService {
         earphones.setWarrantyMonths(0);
         earphones.setIncludesAccessories(true);
         earphones.setWorkingBattery(true);
+<<<<<<< HEAD
         productRepository.save(earphones);
+=======
+        store.put(earphones.getId(), earphones);
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
 
         HostelEssential kettle = new HostelEssential();
         kettle.setId(UUID.randomUUID().toString());
@@ -129,7 +168,11 @@ public class SimpleListingService {
         kettle.setItemSubtype("Kettle");
         kettle.setDurationUsedMonths(8);
         kettle.setBulky(false);
+<<<<<<< HEAD
         productRepository.save(kettle);
+=======
+        store.put(kettle.getId(), kettle);
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
 
         GeneralProduct notes = new GeneralProduct();
         notes.setId(UUID.randomUUID().toString());
@@ -143,14 +186,24 @@ public class SimpleListingService {
         notes.setMeetupArea("Library Ground Floor");
         notes.setNegotiable(false);
         notes.setCategory(Category.FREE_STUFF);
+<<<<<<< HEAD
         productRepository.save(notes);
+=======
+        store.put(notes.getId(), notes);
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
     }
 
     // ─── Public API ────────────────────────────────────────────────────────────
 
     /** Returns all ACTIVE listings as summaries (feed). */
     public List<ListingSummaryResponse> getFeed() {
+<<<<<<< HEAD
         return productRepository.findByStatusOrderByCreatedAtDesc(ListingStatus.ACTIVE).stream()
+=======
+        return store.values().stream()
+                .filter(p -> p.getStatus() == ListingStatus.ACTIVE)
+                .sorted(Comparator.comparing(Product::getCreatedAt).reversed())
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
                 .map(this::toSummary)
                 .collect(Collectors.toList());
     }
@@ -159,7 +212,10 @@ public class SimpleListingService {
     public ListingDetailResponse getListingDetail(String id) {
         Product p = findOrThrow(id);
         p.incrementViewCount();
+<<<<<<< HEAD
         productRepository.save(p);
+=======
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
         return toDetail(p);
     }
 
@@ -175,6 +231,7 @@ public class SimpleListingService {
         product.setPrice(req.getPrice());
         product.setCondition(req.getCondition());
         product.setImageUrls(req.getImageUrls());
+<<<<<<< HEAD
         product.setSellerId("demo-user"); // Authentication is not implemented in this MVP yet.
         String sellerName = req.getSellerName() == null ? "" : req.getSellerName().trim();
         if (sellerName.length() < 2) {
@@ -195,6 +252,10 @@ public class SimpleListingService {
         product.setSellerName(sellerName);
         product.setSellerPhone(phone);
         product.setSellerEmail(email);
+=======
+        product.setSellerId("demo-user");               // hard-coded demo seller
+        product.setSellerName("You (Demo User)");
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
         product.setSellerCampus("Your Campus");
         product.setMeetupArea(req.getMeetupArea() != null ? req.getMeetupArea().trim() : "Campus");
         product.setNegotiable(req.isNegotiable());
@@ -205,7 +266,11 @@ public class SimpleListingService {
             throw new IllegalArgumentException(e.getMessage());
         }
 
+<<<<<<< HEAD
         productRepository.save(product);
+=======
+        store.put(product.getId(), product);
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
         return toDetail(product);
     }
 
@@ -213,19 +278,32 @@ public class SimpleListingService {
     public void markAsSold(String id) {
         Product p = findOrThrow(id);
         p.markSold();                                   // encapsulated mutation
+<<<<<<< HEAD
         productRepository.save(p);
+=======
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
     }
 
     /** Returns all listings belonging to the demo user. */
     public List<ListingSummaryResponse> getMyListings() {
+<<<<<<< HEAD
         return productRepository.findBySellerIdOrderByCreatedAtDesc("demo-user").stream()
+=======
+        return store.values().stream()
+                .filter(p -> "demo-user".equals(p.getSellerId()))
+                .sorted(Comparator.comparing(Product::getCreatedAt).reversed())
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
                 .map(this::toSummary)
                 .collect(Collectors.toList());
     }
 
     /** Simple keyword search. */
     public List<ListingSummaryResponse> search(String query) {
+<<<<<<< HEAD
         return productRepository.findAll().stream()
+=======
+        return store.values().stream()
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
                 .filter(p -> p.getStatus() == ListingStatus.ACTIVE)
                 .filter(p -> p.matchesSearchCriteria(query))    // Searchable interface
                 .sorted(Comparator.comparing(Product::getCreatedAt).reversed())
@@ -319,8 +397,11 @@ public class SimpleListingService {
         r.setSellerId(p.getSellerId());
         r.setSellerName(p.getSellerName());
         r.setSellerCampus(p.getSellerCampus());
+<<<<<<< HEAD
         r.setSellerPhone(p.getSellerPhone());
         r.setSellerEmail(p.getSellerEmail());
+=======
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
         r.setMeetupArea(p.getMeetupArea());
         r.setStatus(p.getStatus());
         r.setNegotiable(p.isNegotiable());
@@ -338,6 +419,12 @@ public class SimpleListingService {
     // ─── Helpers ──────────────────────────────────────────────────────────────
 
     private Product findOrThrow(String id) {
+<<<<<<< HEAD
         return productRepository.findById(id).orElseThrow(() -> new ListingNotFoundException(id));
+=======
+        Product p = store.get(id);
+        if (p == null) throw new ListingNotFoundException(id);
+        return p;
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
     }
 }

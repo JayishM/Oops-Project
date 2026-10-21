@@ -4,10 +4,13 @@ server:
 spring:
   application:
     name: nightmarket-backend
+<<<<<<< HEAD
   data:
     mongodb:
       uri: ${MONGODB_URI:mongodb+srv://jayishmundra_db_user:CWuZ0MDbsl9LnPrf@cluster0.ajyqhbb.mongodb.net/nightmarket?retryWrites=true&w=majority}
       auto-index-creation: true
+=======
+>>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
   jackson:
     serialization:
       write-dates-as-timestamps: false
