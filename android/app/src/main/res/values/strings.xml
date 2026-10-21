@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">NightMarket</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_explore">Explore</string>
+    <string name="nav_sell">Sell</string>
+    <string name="nav_saved">Saved</string>
+    <string name="nav_profile">My Items</string>
+    
+    <string name="home_hero_title">Your campus,\nfull of good finds.</string>
+    <string name="search_hint">Search books, tech, essentials…</string>
+    <string name="browse_categories">BROWSE CATEGORIES</string>
+    
+    <string name="cat_books">Books</string>
+    <string name="cat_tech">Tech</string>
+    <string name="cat_room">Room</string>
+    <string name="cat_fashion">Fashion</string>
+    <string name="cat_sports">Sports</string>
+    <string name="cat_more">More</string>
+    
+    <string name="campus_edit_title">Move in. Move on.</string>
+    <string name="campus_edit_subtitle">Find what your next chapter needs.</string>
+    <string name="campus_edit_btn">Explore finds →</string>
+    
+    <string name="popular_near_you">Popular near you</string>
+    <string name="see_all">See all →</string>
+    <string name="recently_listed">Recently listed</string>
+    <string name="recently_listed_sub">Useful things, from people on your campus.</string>
+    <string name="campus_pickup_badge">✓ Campus pickup · Student-to-student</string>
 </resources>

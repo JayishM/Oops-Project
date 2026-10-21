@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="1dp"
+    app:strokeColor="@color/nightmarket_border"
+    app:strokeWidth="1dp"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="14dp">
+
+        <!-- Thumbnail Artwork Box -->
+        <FrameLayout
+            android:id="@+id/myArtworkFrame"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/bg_badge_mint">
+
+            <TextView
+                android:id="@+id/tvMyArtworkPlaceholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="26sp"
+                android:text="💻" />
+
+            <ImageView
+                android:id="@+id/ivMyProductImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <!-- Listing Info -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="14dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMyTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/nightmarket_text_primary"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Laptop stand" />
+
+            <TextView
+                android:id="@+id/tvMyPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/nightmarket_midnight"
+                tools:text="₹650" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvMyStatusBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_badge_mint"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/nightmarket_active_badge"
+                    tools:text="ACTIVE" />
+
+                <TextView
+                    android:id="@+id/tvMyStats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="11sp"
+                    android:textColor="@color/nightmarket_text_muted"
+                    tools:text="12 views · 3 saves" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Actions / Three Dots menu -->
+        <ImageView
+            android:id="@+id/btnMyMenu"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_more_vert"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Listing options" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

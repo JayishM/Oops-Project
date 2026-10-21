@@ -1,11 +1,40 @@
 <resources>
-    <style name="Theme.NightMarket" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/nightmarket_navy</item>
-        <item name="colorPrimaryDark">@color/nightmarket_navy</item>
-        <item name="colorAccent">@color/nightmarket_blue</item>
-        <item name="android:fontFamily">sans</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:navigationBarColor">@color/nightmarket_navy</item>
+    <!-- Base application theme with Figma design tokens -->
+    <style name="Theme.NightMarket" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/nightmarket_midnight</item>
+        <item name="colorPrimaryDark">@color/nightmarket_midnight</item>
+        <item name="colorAccent">@color/nightmarket_lime</item>
+        <item name="android:statusBarColor">@color/nightmarket_midnight</item>
+        <item name="android:navigationBarColor">@color/nightmarket_midnight</item>
         <item name="android:windowBackground">@color/nightmarket_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Custom View Styles -->
+    <style name="Widget.NightMarket.Button.Primary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/nightmarket_midnight</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Widget.NightMarket.Button.Lime" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/nightmarket_lime</item>
+        <item name="android:textColor">@color/nightmarket_midnight</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Widget.NightMarket.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">18dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">@color/nightmarket_card_bg</item>
+        <item name="strokeColor">@color/nightmarket_border</item>
+        <item name="strokeWidth">1dp</item>
     </style>
 </resources>

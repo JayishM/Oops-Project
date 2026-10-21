@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nightmarket_background">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <!-- Brand Top Bar -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true">
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/bg_badge_lime" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="nightmarket"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/nightmarket_midnight" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/btnHeaderMore"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_more_vert"
+                    android:contentDescription="Options" />
+            </RelativeLayout>
+
+            <!-- Hero Headline -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="12dp"
+                android:text="@string/home_hero_title"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/nightmarket_midnight"
+                android:lineSpacingExtra="3dp" />
+
+            <!-- Search Input Box -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/nightmarket_border"
+                app:strokeWidth="1dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_search"
+                        app:tint="@color/nightmarket_text_hint"
+                        android:contentDescription="Search" />
+
+                    <EditText
+                        android:id="@+id/etSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:background="@null"
+                        android:hint="@string/search_hint"
+                        android:textColorHint="@color/nightmarket_text_hint"
+                        android:textColor="@color/nightmarket_text_primary"
+                        android:textSize="14sp"
+                        android:singleLine="true"
+                        android:imeOptions="actionSearch" />
+
+                    <ImageView
+                        android:id="@+id/btnClearSearch"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_cat_more"
+                        app:tint="@color/nightmarket_text_hint"
+                        android:visibility="gone"
+                        android:contentDescription="Clear" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- BROWSE CATEGORIES Label -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
+                android:text="@string/browse_categories"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:textColor="@color/nightmarket_text_muted" />
+
+            <!-- Category Icon Buttons Row (Books, Tech, Room, More) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <!-- Books -->
+                <LinearLayout
+                    android:id="@+id/btnCatBooks"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_rounded_card">
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_cat_books"
+                            app:tint="@color/nightmarket_midnight"
+                            android:contentDescription="Books" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/cat_books"
+                        android:textSize="12sp"
+                        android:textColor="@color/nightmarket_text_secondary" />
+                </LinearLayout>
+
+                <!-- Tech -->
+                <LinearLayout
+                    android:id="@+id/btnCatTech"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_rounded_card">
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_cat_tech"
+                            app:tint="@color/nightmarket_midnight"
+                            android:contentDescription="Tech" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/cat_tech"
+                        android:textSize="12sp"
+                        android:textColor="@color/nightmarket_text_secondary" />
+                </LinearLayout>
+
+                <!-- Room -->
+                <LinearLayout
+                    android:id="@+id/btnCatRoom"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_rounded_card">
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_cat_room"
+                            app:tint="@color/nightmarket_midnight"
+                            android:contentDescription="Room" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/cat_room"
+                        android:textSize="12sp"
+                        android:textColor="@color/nightmarket_text_secondary" />
+                </LinearLayout>
+
+                <!-- More / All -->
+                <LinearLayout
+                    android:id="@+id/btnCatMore"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_rounded_card">
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_cat_more"
+                            app:tint="@color/nightmarket_midnight"
+                            android:contentDescription="More" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/cat_more"
+                        android:textSize="12sp"
+                        android:textColor="@color/nightmarket_text_secondary" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- THE CAMPUS EDIT Banner -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="18dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/nightmarket_navy">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="THE CAMPUS EDIT"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.1"
+                        android:textColor="@color/nightmarket_lime" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/campus_edit_title"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/campus_edit_subtitle"
+                        android:textSize="13sp"
+                        android:textColor="@color/nightmarket_lavender" />
+
+                    <Button
+                        android:id="@+id/btnExploreFinds"
+                        style="@style/Widget.NightMarket.Button.Lime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/campus_edit_btn"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Popular Near You Header -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="6dp">
+
+                <TextView
+                    android:id="@+id/tvSectionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/popular_near_you"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/nightmarket_midnight"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/btnSeeAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_all"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/nightmarket_midnight"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <!-- Filter Status Pill / Active Filter -->
+            <TextView
+                android:id="@+id/tvFilterStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_badge_mint"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="@string/campus_pickup_badge"
+                android:textSize="11sp"
+                android:textColor="@color/nightmarket_active_badge" />
+
+            <!-- Loading Indicator -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:indeterminateTint="@color/nightmarket_midnight"
+                android:visibility="gone" />
+
+            <!-- Error State Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="@color/nightmarket_heart_bg"
+                app:strokeWidth="1dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⚠️ Connection Notice"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/nightmarket_text_primary" />
+
+                    <TextView
+                        android:id="@+id/tvErrorMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Make sure the Spring Boot backend is running."
+                        android:textSize="13sp"
+                        android:textColor="@color/nightmarket_text_secondary" />
+
+                    <Button
+                        android:id="@+id/btnRetry"
+                        style="@style/Widget.NightMarket.Button.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="12dp"
+                        android:text="Try again"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Empty State View -->
+            <LinearLayout
+                android:id="@+id/layoutEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📦"
+                    android:textSize="48sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="No listings found"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/nightmarket_midnight" />
+
+                <TextView
+                    android:id="@+id/tvEmptyMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Try another search or select a different category."
+                    android:textSize="13sp"
+                    android:gravity="center"
+                    android:textColor="@color/nightmarket_text_muted" />
+            </LinearLayout>
+
+            <!-- Feed RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewListings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:clipToPadding="false"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

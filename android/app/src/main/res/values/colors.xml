@@ -1,5 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Figma Design Tokens -->
+    <color name="nightmarket_midnight">#0F172A</color>
     <color name="nightmarket_navy">#191D39</color>
+    <color name="nightmarket_navy_card">#1E2342</color>
+    <color name="nightmarket_lime">#D2F802</color>
+    <color name="nightmarket_lime_dark">#B5D800</color>
+    <color name="nightmarket_canvas">#F8F9FA</color>
+    <color name="nightmarket_background">#F8F9FA</color>
+    <color name="nightmarket_lavender">#E9D5FF</color>
+    <color name="nightmarket_lavender_bg">#F5EEFF</color>
+    <color name="nightmarket_mint">#D1FAE5</color>
+    <color name="nightmarket_mint_bg">#E6F9F0</color>
+    
+    <!-- Neutrals & Text -->
+    <color name="nightmarket_text_primary">#0F172A</color>
+    <color name="nightmarket_text_secondary">#4B5563</color>
+    <color name="nightmarket_text_muted">#9CA3AF</color>
+    <color name="nightmarket_text_hint">#94A3B8</color>
+    <color name="nightmarket_border">#E2E8F0</color>
+    <color name="nightmarket_border_light">#F1F5F9</color>
+    <color name="nightmarket_card_bg">#FFFFFF</color>
+    
+    <!-- Accents & Actions -->
+    <color name="nightmarket_accent">#6852EC</color>
+    <color name="nightmarket_accent_light">#EDE9FE</color>
     <color name="nightmarket_blue">#6852EC</color>
-    <color name="nightmarket_background">#F6F7FB</color>
+    <color name="nightmarket_heart_red">#EF4444</color>
+    <color name="nightmarket_heart_bg">#FEE2E2</color>
+    <color name="nightmarket_active_badge">#059669</color>
+    <color name="nightmarket_active_badge_bg">#D1FAE5</color>
+    <color name="nightmarket_sold_badge">#6B7280</color>
+    <color name="nightmarket_sold_badge_bg">#F3F4F6</color>
+    <color name="nightmarket_pending_badge">#D97706</color>
+    <color name="nightmarket_pending_badge_bg">#FEF3C7</color>
+    <color name="nightmarket_safety_bg">#ECFDF5</color>
+    <color name="nightmarket_safety_border">#A7F3D0</color>
+    <color name="nightmarket_safety_text">#065F46</color>
+    <color name="nightmarket_warning_bg">#FFFBEB</color>
+    <color name="nightmarket_warning_border">#FDE68A</color>
+    <color name="nightmarket_warning_text">#92400E</color>
+    
+    <!-- Standard Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
 </resources>
