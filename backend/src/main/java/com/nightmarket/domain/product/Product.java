@@ -9,12 +9,9 @@ import com.nightmarket.domain.marketplace.Condition;
 import com.nightmarket.domain.marketplace.ListingStatus;
 import com.nightmarket.exception.DomainValidationException;
 import com.nightmarket.exception.InvalidOfferException;
-<<<<<<< HEAD
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
-=======
->>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -33,20 +30,14 @@ import java.util.Locale;
  *   3. Encapsulation – status, view-count, favourite-count mutated only through guarded methods.
  *   4. Multiple interfaces – Searchable, Offerable, Negotiable, Validatable.
  */
-<<<<<<< HEAD
 @Document(collection = "listings")
 public abstract class Product implements Validatable, Searchable, Offerable, Negotiable {
 
     @Id
-=======
-public abstract class Product implements Validatable, Searchable, Offerable, Negotiable {
-
->>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
     private String id;
     private String title;
     private String description;
     private BigDecimal price;
-<<<<<<< HEAD
     @Indexed
     private Category category;
     private Condition condition;
@@ -60,24 +51,12 @@ public abstract class Product implements Validatable, Searchable, Offerable, Neg
     private String sellerEmail;
     private String meetupArea;
     @Indexed
-=======
-    private Category category;
-    private Condition condition;
-    private List<String> imageUrls = new ArrayList<>();
-    private String sellerId;
-    private String sellerName;
-    private String sellerCampus;
-    private String meetupArea;
->>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
     private ListingStatus status = ListingStatus.ACTIVE;
     private boolean negotiable;
     private int viewCount;
     private int favoriteCount;
     private int reportCount;
-<<<<<<< HEAD
     @Indexed
-=======
->>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -241,15 +220,11 @@ public abstract class Product implements Validatable, Searchable, Offerable, Neg
     public String getSellerCampus() { return sellerCampus; }
     public void setSellerCampus(String sellerCampus) { this.sellerCampus = sellerCampus; }
 
-<<<<<<< HEAD
     public String getSellerPhone() { return sellerPhone; }
     public void setSellerPhone(String sellerPhone) { this.sellerPhone = sellerPhone; }
 
     public String getSellerEmail() { return sellerEmail; }
     public void setSellerEmail(String sellerEmail) { this.sellerEmail = sellerEmail; }
-
-=======
->>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
     public String getMeetupArea() { return meetupArea; }
     public void setMeetupArea(String meetupArea) { this.meetupArea = meetupArea; }
 

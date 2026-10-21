@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Figma Design Tokens -->
@@ -46,10 +45,4 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
-=======
-<resources>
-    <color name="nightmarket_navy">#191D39</color>
-    <color name="nightmarket_blue">#6852EC</color>
-    <color name="nightmarket_background">#F6F7FB</color>
->>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
 </resources>

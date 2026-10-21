@@ -33,7 +33,6 @@ public class CreateListingRequest {
 
     private List<String> imageUrls = new ArrayList<>();
 
-<<<<<<< HEAD
     @Size(max = 80, message = "Seller name cannot exceed 80 characters")
     private String sellerName;
 
@@ -42,9 +41,6 @@ public class CreateListingRequest {
 
     @Size(max = 120, message = "Email cannot exceed 120 characters")
     private String sellerEmail;
-
-=======
->>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
     @NotBlank(message = "Campus meetup area is required")
     private String meetupArea;
 
@@ -130,7 +126,6 @@ public class CreateListingRequest {
         this.imageUrls = imageUrls != null ? imageUrls : new ArrayList<>();
     }
 
-<<<<<<< HEAD
     public String getSellerName() { return sellerName; }
     public void setSellerName(String sellerName) { this.sellerName = sellerName; }
 
@@ -139,9 +134,6 @@ public class CreateListingRequest {
 
     public String getSellerEmail() { return sellerEmail; }
     public void setSellerEmail(String sellerEmail) { this.sellerEmail = sellerEmail; }
-
-=======
->>>>>>> 39aa8c2ca1fa8976c6cac2d492cd608848470eec
     public String getMeetupArea() {
         return meetupArea;
     }
