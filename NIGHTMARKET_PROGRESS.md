@@ -117,4 +117,6 @@
   6. Seller Listings: `GET /api/listings/mine` -> Verified user's listings list.
   7. Mark Sold: `POST /api/listings/{id}/mark-sold` -> Status changed to `SOLD` and excluded from feed.
   8. Persistence: Verified data remains stored in MongoDB across backend process restarts.
-  9. Android Build: `.\gradlew.bat assembleDebug` -> **BUILD SUCCESS**.
+  9. Android Build: `.\gradlew.bat assembleDebug` -> **BUILD SUCCESS** in 6s.
+  10. Backend Automated Test Suite: `mvn test` -> **BUILD SUCCESS** (6 unit tests passing across abstraction, inheritance, polymorphism, encapsulation, validation, and offer contracts).
+  11. Android Automated Test Suite: `.\gradlew.bat testDebugUnitTest` -> **BUILD SUCCESS** (JUnit unit tests passing for Gson deserialization, price formatting, and seller initials calculation).
