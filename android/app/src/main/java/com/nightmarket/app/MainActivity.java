@@ -88,6 +88,18 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.nav_profile);
     }
 
+    public void setBottomNavVisibility(boolean visible) {
+        if (bottomNavigationView != null) {
+            bottomNavigationView.setVisibility(visible ? android.view.View.VISIBLE : android.view.View.GONE);
+            android.view.View container = findViewById(R.id.fragment_container);
+            if (container != null && container.getLayoutParams() instanceof android.view.ViewGroup.MarginLayoutParams) {
+                android.view.ViewGroup.MarginLayoutParams lp = (android.view.ViewGroup.MarginLayoutParams) container.getLayoutParams();
+                lp.bottomMargin = visible ? (int) (64 * getResources().getDisplayMetrics().density) : 0;
+                container.setLayoutParams(lp);
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();

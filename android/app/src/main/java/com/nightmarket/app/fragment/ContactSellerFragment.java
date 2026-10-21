@@ -12,13 +12,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.nightmarket.app.MainActivity;
@@ -31,6 +31,11 @@ import com.nightmarket.app.util.ImageLoader;
 
 import java.util.List;
 
+/**
+ * Functional chat interface for NightMarket.
+ * Allows prospective student buyers to communicate directly with student sellers.
+ * Persists conversations and messages in MongoDB Atlas through Spring Boot backend.
+ */
 public class ContactSellerFragment extends Fragment {
 
     private static final String ARG_LISTING = "arg_listing";
@@ -46,11 +51,18 @@ public class ContactSellerFragment extends Fragment {
     private TextView btnViewListing;
 
     private ProgressBar progressBarChat;
+    private LinearLayout layoutChatError;
+    private TextView tvChatErrorMessage;
+    private Button btnChatRetry;
+
     private LinearLayout layoutSellerInitialContainer;
     private TextView tvChatSellerAvatar;
     private TextView tvSellerInitialMessage;
+    private LinearLayout layoutChatEmptyState;
+    private TextView tvChatEmptyTitle;
+    private TextView tvChatEmptySubtitle;
     private LinearLayout layoutDynamicMessages;
-    private ScrollView chatScrollView;
+    private NestedScrollView chatScrollView;
 
     private Button btnChatCall;
     private Button btnChatSMS;
@@ -96,6 +108,22 @@ public class ContactSellerFragment extends Fragment {
         loadConversation();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).setBottomNavVisibility(false);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).setBottomNavVisibility(true);
+        }
+    }
+
     private void bindViews(View view) {
         btnChatBack = view.findViewById(R.id.btnChatBack);
         btnChatRefresh = view.findViewById(R.id.btnChatRefresh);
@@ -108,9 +136,16 @@ public class ContactSellerFragment extends Fragment {
         btnViewListing = view.findViewById(R.id.btnViewListing);
 
         progressBarChat = view.findViewById(R.id.progressBarChat);
+        layoutChatError = view.findViewById(R.id.layoutChatError);
+        tvChatErrorMessage = view.findViewById(R.id.tvChatErrorMessage);
+        btnChatRetry = view.findViewById(R.id.btnChatRetry);
+
         layoutSellerInitialContainer = view.findViewById(R.id.layoutSellerInitialContainer);
         tvChatSellerAvatar = view.findViewById(R.id.tvChatSellerAvatar);
         tvSellerInitialMessage = view.findViewById(R.id.tvSellerInitialMessage);
+        layoutChatEmptyState = view.findViewById(R.id.layoutChatEmptyState);
+        tvChatEmptyTitle = view.findViewById(R.id.tvChatEmptyTitle);
+        tvChatEmptySubtitle = view.findViewById(R.id.tvChatEmptySubtitle);
         layoutDynamicMessages = view.findViewById(R.id.layoutDynamicMessages);
         chatScrollView = view.findViewById(R.id.chatScrollView);
 
@@ -127,17 +162,25 @@ public class ContactSellerFragment extends Fragment {
     }
 
     private void populateListingHeader() {
-        if (listing == null) return;
+        if (listing == null) {
+            tvChatHeaderTitle.setText("Chat");
+            tvChatProductTitle.setText("Item not found");
+            return;
+        }
 
-        tvChatHeaderTitle.setText("Chat with " + listing.getSellerName());
-        tvChatProductTitle.setText(listing.getTitle());
+        String sellerName = (listing.getSellerName() != null && !listing.getSellerName().trim().isEmpty())
+                ? listing.getSellerName() : "Seller";
+        tvChatHeaderTitle.setText("Chat with " + sellerName);
+        tvChatProductTitle.setText(listing.getTitle() != null ? listing.getTitle() : "Listing");
         tvChatProductPrice.setText(listing.getFormattedPrice() + " · " + listing.getFormattedCondition());
         tvChatSellerAvatar.setText(listing.getSellerInitials());
 
-        tvSellerInitialMessage.setText("Hey! Thanks for your interest in " + listing.getTitle() + ". It is available for campus pickup at " + listing.getMeetupArea() + ".");
+        String meetup = (listing.getMeetupArea() != null && !listing.getMeetupArea().trim().isEmpty())
+                ? listing.getMeetupArea() : "Campus";
+        tvSellerInitialMessage.setText("Hey! Thanks for your interest in " + (listing.getTitle() != null ? listing.getTitle() : "this item") + ". It is available for campus pickup at " + meetup + ".");
 
         // Category artwork or real image
-        String cat = listing.getCategory().toUpperCase();
+        String cat = (listing.getCategory() != null) ? listing.getCategory().toUpperCase() : "";
         if ("TEXTBOOKS".equals(cat)) {
             tvChatProductPlaceholder.setText("📚");
             chatProductThumbFrame.setBackgroundResource(R.drawable.bg_badge_mint);
@@ -150,6 +193,9 @@ public class ContactSellerFragment extends Fragment {
         } else if ("HOSTEL_ESSENTIALS".equals(cat)) {
             tvChatProductPlaceholder.setText("🛏️");
             chatProductThumbFrame.setBackgroundResource(R.drawable.bg_badge_mint);
+        } else if ("SPORTS_FITNESS".equals(cat)) {
+            tvChatProductPlaceholder.setText("⚽");
+            chatProductThumbFrame.setBackgroundResource(R.drawable.bg_badge_lime);
         } else {
             tvChatProductPlaceholder.setText("📦");
             chatProductThumbFrame.setBackgroundResource(R.drawable.bg_badge_lime);
@@ -162,8 +208,8 @@ public class ContactSellerFragment extends Fragment {
         }
 
         // Direct contact buttons
-        boolean hasPhone = listing.getSellerPhone() != null && !listing.getSellerPhone().isEmpty();
-        boolean hasEmail = listing.getSellerEmail() != null && !listing.getSellerEmail().isEmpty();
+        boolean hasPhone = listing.getSellerPhone() != null && !listing.getSellerPhone().trim().isEmpty();
+        boolean hasEmail = listing.getSellerEmail() != null && !listing.getSellerEmail().trim().isEmpty();
         btnChatCall.setVisibility(hasPhone ? View.VISIBLE : View.GONE);
         btnChatSMS.setVisibility(hasPhone ? View.VISIBLE : View.GONE);
         btnChatEmail.setVisibility(hasEmail ? View.VISIBLE : View.GONE);
@@ -179,9 +225,15 @@ public class ContactSellerFragment extends Fragment {
             Toast.makeText(getContext(), "Refreshed chat", Toast.LENGTH_SHORT).show();
         });
 
+        if (btnChatRetry != null) {
+            btnChatRetry.setOnClickListener(v -> loadConversation());
+        }
+
         btnViewListing.setOnClickListener(v -> {
-            if (listing != null && getActivity() instanceof MainActivity) {
+            if (listing != null && !listing.getId().isEmpty() && getActivity() instanceof MainActivity) {
                 ((MainActivity) getActivity()).navigateToProductDetail(listing.getId());
+            } else if (getActivity() != null) {
+                getActivity().onBackPressed();
             }
         });
 
@@ -196,21 +248,30 @@ public class ContactSellerFragment extends Fragment {
         // Send button
         btnSendMessage.setOnClickListener(v -> {
             String msg = etChatMessage.getText().toString().trim();
-            if (!msg.isEmpty()) {
-                handleSendMessage(msg);
+            if (msg.isEmpty()) {
+                Toast.makeText(getContext(), "Please enter a message", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            handleSendMessage(msg);
+        });
+
+        // Auto-scroll when user focuses input
+        etChatMessage.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus && chatScrollView != null) {
+                chatScrollView.postDelayed(() -> chatScrollView.fullScroll(View.FOCUS_DOWN), 200);
             }
         });
 
         // Intent actions
         btnChatCall.setOnClickListener(v -> {
-            if (listing != null && !listing.getSellerPhone().isEmpty()) {
+            if (listing != null && listing.getSellerPhone() != null && !listing.getSellerPhone().isEmpty()) {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listing.getSellerPhone()));
                 startActivity(intent);
             }
         });
 
         btnChatSMS.setOnClickListener(v -> {
-            if (listing != null && !listing.getSellerPhone().isEmpty()) {
+            if (listing != null && listing.getSellerPhone() != null && !listing.getSellerPhone().isEmpty()) {
                 Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + listing.getSellerPhone()));
                 intent.putExtra("sms_body", "Hi " + listing.getSellerName() + ", I saw your listing for " + listing.getTitle() + " on NightMarket.");
                 startActivity(intent);
@@ -218,7 +279,7 @@ public class ContactSellerFragment extends Fragment {
         });
 
         btnChatEmail.setOnClickListener(v -> {
-            if (listing != null && !listing.getSellerEmail().isEmpty()) {
+            if (listing != null && listing.getSellerEmail() != null && !listing.getSellerEmail().isEmpty()) {
                 Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + listing.getSellerEmail()));
                 intent.putExtra(Intent.EXTRA_SUBJECT, "NightMarket Listing: " + listing.getTitle());
                 intent.putExtra(Intent.EXTRA_TEXT, "Hi " + listing.getSellerName() + ",\nI'm reaching out about your NightMarket item: " + listing.getTitle());
@@ -228,9 +289,14 @@ public class ContactSellerFragment extends Fragment {
     }
 
     private void loadConversation() {
-        if (listing == null || listing.getId().isEmpty()) return;
+        if (listing == null || listing.getId() == null || listing.getId().trim().isEmpty()) {
+            if (progressBarChat != null) progressBarChat.setVisibility(View.GONE);
+            showError("Cannot start chat: Missing listing information");
+            return;
+        }
 
-        progressBarChat.setVisibility(View.VISIBLE);
+        if (progressBarChat != null) progressBarChat.setVisibility(View.VISIBLE);
+        if (layoutChatError != null) layoutChatError.setVisibility(View.GONE);
 
         repository.getOrCreateConversation(listing.getId(), "Student Buyer", new RemoteListingRepository.ApiCallback<ConversationResponse>() {
             @Override
@@ -243,41 +309,49 @@ public class ContactSellerFragment extends Fragment {
             @Override
             public void onError(String errorMessage) {
                 if (!isAdded()) return;
-                progressBarChat.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "Unable to connect to chat: " + errorMessage, Toast.LENGTH_SHORT).show();
+                if (progressBarChat != null) progressBarChat.setVisibility(View.GONE);
+                showError("Unable to connect to chat: " + errorMessage);
             }
         });
     }
 
     private void fetchMessages() {
-        if (conversationId == null) return;
+        if (conversationId == null) {
+            if (progressBarChat != null) progressBarChat.setVisibility(View.GONE);
+            return;
+        }
 
         repository.fetchMessages(conversationId, new RemoteListingRepository.ApiCallback<List<MessageResponse>>() {
             @Override
             public void onSuccess(List<MessageResponse> result) {
                 if (!isAdded()) return;
-                progressBarChat.setVisibility(View.GONE);
+                if (progressBarChat != null) progressBarChat.setVisibility(View.GONE);
+                if (layoutChatError != null) layoutChatError.setVisibility(View.GONE);
 
                 layoutDynamicMessages.removeAllViews();
 
                 if (result != null && !result.isEmpty()) {
-                    // Hide default placeholder greeting if real conversation history exists
-                    layoutSellerInitialContainer.setVisibility(View.GONE);
+                    if (layoutSellerInitialContainer != null) layoutSellerInitialContainer.setVisibility(View.GONE);
+                    if (layoutChatEmptyState != null) layoutChatEmptyState.setVisibility(View.GONE);
+
                     for (MessageResponse message : result) {
                         appendMessageBubble(message.getContent(), message.getFormattedTime(), message.isSentByCurrentUser());
                     }
                 } else {
-                    // Show initial greeting when no messages sent yet
-                    layoutSellerInitialContainer.setVisibility(View.VISIBLE);
+                    if (layoutSellerInitialContainer != null) layoutSellerInitialContainer.setVisibility(View.VISIBLE);
+                    if (layoutChatEmptyState != null) layoutChatEmptyState.setVisibility(View.VISIBLE);
                 }
 
-                chatScrollView.post(() -> chatScrollView.fullScroll(View.FOCUS_DOWN));
+                if (chatScrollView != null) {
+                    chatScrollView.post(() -> chatScrollView.fullScroll(View.FOCUS_DOWN));
+                }
             }
 
             @Override
             public void onError(String errorMessage) {
                 if (!isAdded()) return;
-                progressBarChat.setVisibility(View.GONE);
+                if (progressBarChat != null) progressBarChat.setVisibility(View.GONE);
+                showError("Failed to load messages: " + errorMessage);
             }
         });
     }
@@ -286,13 +360,14 @@ public class ContactSellerFragment extends Fragment {
         if (text == null || text.trim().isEmpty() || isSending) return;
 
         if (conversationId == null) {
-            Toast.makeText(getContext(), "Connecting to chat...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Connecting to chat, please wait...", Toast.LENGTH_SHORT).show();
             loadConversation();
             return;
         }
 
         isSending = true;
         btnSendMessage.setEnabled(false);
+        btnSendMessage.setAlpha(0.5f);
 
         repository.sendMessage(conversationId, text.trim(), new RemoteListingRepository.ApiCallback<MessageResponse>() {
             @Override
@@ -300,10 +375,16 @@ public class ContactSellerFragment extends Fragment {
                 if (!isAdded()) return;
                 isSending = false;
                 btnSendMessage.setEnabled(true);
+                btnSendMessage.setAlpha(1.0f);
                 etChatMessage.setText("");
 
+                if (layoutChatEmptyState != null) layoutChatEmptyState.setVisibility(View.GONE);
+                if (layoutSellerInitialContainer != null) layoutSellerInitialContainer.setVisibility(View.GONE);
+
                 appendMessageBubble(result.getContent(), result.getFormattedTime(), true);
-                chatScrollView.post(() -> chatScrollView.fullScroll(View.FOCUS_DOWN));
+                if (chatScrollView != null) {
+                    chatScrollView.post(() -> chatScrollView.fullScroll(View.FOCUS_DOWN));
+                }
             }
 
             @Override
@@ -311,9 +392,19 @@ public class ContactSellerFragment extends Fragment {
                 if (!isAdded()) return;
                 isSending = false;
                 btnSendMessage.setEnabled(true);
+                btnSendMessage.setAlpha(1.0f);
                 Toast.makeText(getContext(), "Failed to send: " + errorMessage, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void showError(String message) {
+        if (layoutChatError != null && tvChatErrorMessage != null) {
+            tvChatErrorMessage.setText(message);
+            layoutChatError.setVisibility(View.VISIBLE);
+        } else if (getContext() != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void appendMessageBubble(String text, String timeText, boolean isOutgoing) {

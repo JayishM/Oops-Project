@@ -123,6 +123,11 @@ public class ProductDetailFragment extends Fragment {
         btnMessageSeller.setOnClickListener(v -> {
             if (currentListing != null && getActivity() instanceof MainActivity) {
                 ((MainActivity) getActivity()).navigateToContactSeller(currentListing);
+            } else if (listingId != null && !listingId.isEmpty()) {
+                Toast.makeText(getContext(), "Loading item details, please try again...", Toast.LENGTH_SHORT).show();
+                loadListingDetails();
+            } else {
+                Toast.makeText(getContext(), "Item information unavailable", Toast.LENGTH_SHORT).show();
             }
         });
 

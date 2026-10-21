@@ -133,6 +133,40 @@
         android:layout_marginBottom="4dp"
         android:visibility="gone" />
 
+    <!-- Chat Error State -->
+    <LinearLayout
+        android:id="@+id/layoutChatError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/bg_warning_box"
+        android:padding="12dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvChatErrorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unable to connect to chat"
+            android:textSize="12sp"
+            android:textColor="@color/nightmarket_warning_text"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/btnChatRetry"
+            style="@style/Widget.NightMarket.Button.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginTop="6dp"
+            android:text="Retry"
+            android:textSize="11sp" />
+    </LinearLayout>
+
     <!-- Chat Scroll Area -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/chatScrollView"
@@ -210,40 +244,44 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Buyer Outgoing Message (Demo placeholder hidden) -->
+            <!-- Chat Empty State -->
             <LinearLayout
-                android:id="@+id/layoutBuyerDemoMessage"
+                android:id="@+id/layoutChatEmptyState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:visibility="gone"
-                android:gravity="end"
-                android:orientation="horizontal">
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <LinearLayout
+                <TextView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_badge_lime"
+                    android:gravity="center"
+                    android:text="💬"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tvChatEmptyTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
-                    android:background="@drawable/bg_chat_outgoing"
-                    android:padding="12dp"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    android:text="Start the conversation"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/nightmarket_midnight" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Great! Can we meet near the library around 4 pm?"
-                        android:textSize="13sp"
-                        android:textColor="@color/nightmarket_text_primary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="4dp"
-                        android:text="10:34 AM ✓✓"
-                        android:textSize="9sp"
-                        android:textColor="@color/nightmarket_active_badge" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tvChatEmptySubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="Ask about availability, pickup spot, or negotiate the price."
+                    android:textSize="12sp"
+                    android:textColor="@color/nightmarket_text_secondary" />
             </LinearLayout>
 
             <!-- Dynamic Messages List -->
@@ -431,7 +469,8 @@
         <EditText
             android:id="@+id/etChatMessage"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:layout_weight="1"
             android:background="@drawable/bg_edit_text"
             android:hint="Message…"
@@ -440,7 +479,10 @@
             android:textSize="13sp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:singleLine="true" />
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:maxLines="4"
+            android:inputType="textCapSentences|textMultiLine" />
 
         <ImageView
             android:id="@+id/btnSendMessage"
