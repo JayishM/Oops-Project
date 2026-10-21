@@ -82,6 +82,12 @@
   - Verified listing creation (`POST /api/listings/add`) inserts documents into MongoDB.
   - Verified state transitions (`POST /api/listings/{id}/mark-sold`) update persistent document status to `SOLD`.
   - Verified persistence across process restart: Killed backend process, restarted it, and re-queried by ID; document state (`SOLD`, view counts, category summaries) remained intact.
+  - **Live MongoDB Atlas Integration**:
+    - Configured live connection string pointing to cluster `cluster0.ajyqhbb.mongodb.net` with user `jayishmundra_db_user` and database `nightmarket`.
+    - Set in `.env`, `.env.example`, and default URI fallback in `backend/src/main/resources/application.yml`.
+    - Executed live connection against Atlas replica set primary (`ac-ahjozm0-shard-00-01.ajyqhbb.mongodb.net:27017`).
+    - Successfully verified seed listing generation into the Atlas cluster (`c.n.service.SimpleListingService : Seeded demo NightMarket listings into MongoDB.`).
+    - Verified live queries via `/api/health` (`"database": "CONNECTED"`) and `/api/listings/feed` returning Atlas-persisted documents.
 
 ---
 

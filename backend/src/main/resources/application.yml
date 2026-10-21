@@ -6,7 +6,7 @@ spring:
     name: nightmarket-backend
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb://localhost:27017/nightmarket}
+      uri: ${MONGODB_URI:mongodb+srv://jayishmundra_db_user:CWuZ0MDbsl9LnPrf@cluster0.ajyqhbb.mongodb.net/nightmarket?retryWrites=true&w=majority}
       auto-index-creation: true
   jackson:
     serialization:
