@@ -8,6 +8,10 @@ spring:
     mongodb:
       uri: ${MONGODB_URI:mongodb+srv://jayishmundra_db_user:CWuZ0MDbsl9LnPrf@cluster0.ajyqhbb.mongodb.net/nightmarket?retryWrites=true&w=majority}
       auto-index-creation: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
   jackson:
     serialization:
       write-dates-as-timestamps: false

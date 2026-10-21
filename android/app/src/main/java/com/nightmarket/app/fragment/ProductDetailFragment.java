@@ -21,6 +21,7 @@ import com.nightmarket.app.MainActivity;
 import com.nightmarket.app.R;
 import com.nightmarket.app.model.Listing;
 import com.nightmarket.app.repository.RemoteListingRepository;
+import com.nightmarket.app.util.ImageLoader;
 
 public class ProductDetailFragment extends Fragment {
 
@@ -224,6 +225,18 @@ public class ProductDetailFragment extends Fragment {
         } else {
             tvDetailArtworkPlaceholder.setText("📦");
             detailArtworkFrame.setBackgroundResource(R.drawable.bg_badge_lavender);
+        }
+
+        // Real photo display via ImageLoader
+        String primaryImg = item.getPrimaryImageUrl();
+        if (ivDetailProductImage != null) {
+            if (primaryImg != null && !primaryImg.trim().isEmpty()) {
+                ImageLoader.getInstance().loadImage(ivDetailProductImage, primaryImg, tvDetailArtworkPlaceholder);
+            } else {
+                ivDetailProductImage.setImageDrawable(null);
+                ivDetailProductImage.setVisibility(View.GONE);
+                tvDetailArtworkPlaceholder.setVisibility(View.VISIBLE);
+            }
         }
 
         // Savings / Offer badge

@@ -173,4 +173,90 @@ public class RemoteListingRepository {
         preferences.edit().putStringSet(KEY_SAVED_IDS, current).apply();
         return isNowSaved;
     }
+
+    // ── Image Upload ──────────────────────────────────────────────────────────
+
+    public void uploadImage(java.io.File file, ApiCallback<String> callback) {
+        okhttp3.RequestBody requestBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("image/jpeg"), file);
+        okhttp3.MultipartBody.Part part = okhttp3.MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+
+        apiService.uploadImage(part).enqueue(new Callback<java.util.Map<String, String>>() {
+            @Override
+            public void onResponse(Call<java.util.Map<String, String>> call, Response<java.util.Map<String, String>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().containsKey("imageUrl")) {
+                    callback.onSuccess(response.body().get("imageUrl"));
+                } else {
+                    String error = "Image upload failed";
+                    try {
+                        if (response.errorBody() != null) {
+                            error = response.errorBody().string();
+                        }
+                    } catch (Exception ignored) {}
+                    callback.onError(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<java.util.Map<String, String>> call, Throwable t) {
+                callback.onError("Network error uploading photo: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    // ── Messaging & Conversations ─────────────────────────────────────────────
+
+    public void getOrCreateConversation(String listingId, String buyerName, ApiCallback<com.nightmarket.app.model.ConversationResponse> callback) {
+        apiService.startConversation(listingId, "demo-buyer", buyerName).enqueue(new Callback<com.nightmarket.app.model.ConversationResponse>() {
+            @Override
+            public void onResponse(Call<com.nightmarket.app.model.ConversationResponse> call, Response<com.nightmarket.app.model.ConversationResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Failed to start chat: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.nightmarket.app.model.ConversationResponse> call, Throwable t) {
+                callback.onError("Connection error: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public void fetchMessages(String conversationId, ApiCallback<List<com.nightmarket.app.model.MessageResponse>> callback) {
+        apiService.getMessages(conversationId, "demo-buyer").enqueue(new Callback<List<com.nightmarket.app.model.MessageResponse>>() {
+            @Override
+            public void onResponse(Call<List<com.nightmarket.app.model.MessageResponse>> call, Response<List<com.nightmarket.app.model.MessageResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Failed to load messages");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<com.nightmarket.app.model.MessageResponse>> call, Throwable t) {
+                callback.onError("Error loading messages: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public void sendMessage(String conversationId, String content, ApiCallback<com.nightmarket.app.model.MessageResponse> callback) {
+        com.nightmarket.app.model.SendMessageRequest req = new com.nightmarket.app.model.SendMessageRequest(content);
+        apiService.sendMessage(conversationId, "demo-buyer", "Student Buyer", req).enqueue(new Callback<com.nightmarket.app.model.MessageResponse>() {
+            @Override
+            public void onResponse(Call<com.nightmarket.app.model.MessageResponse> call, Response<com.nightmarket.app.model.MessageResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Failed to send message: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.nightmarket.app.model.MessageResponse> call, Throwable t) {
+                callback.onError("Network error sending message: " + t.getLocalizedMessage());
+            }
+        });
+    }
 }

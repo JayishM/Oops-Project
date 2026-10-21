@@ -36,6 +36,17 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:textColor="@color/nightmarket_midnight" />
+
+        <ImageView
+            android:id="@+id/btnChatRefresh"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:padding="6dp"
+            android:src="@drawable/ic_refresh"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Refresh" />
     </RelativeLayout>
 
     <!-- Product Summary Bar (Figma Screen 05) -->
@@ -68,6 +79,12 @@
                     android:layout_gravity="center"
                     android:text="🎧"
                     android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/ivChatProductImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
             </FrameLayout>
 
             <LinearLayout
@@ -107,6 +124,15 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <ProgressBar
+        android:id="@+id/progressBarChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone" />
+
     <!-- Chat Scroll Area -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/chatScrollView"
@@ -132,12 +158,13 @@
                 android:paddingEnd="12dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
-                android:text="TODAY · 10:22 AM"
+                android:text="CAMPUS CHAT"
                 android:textSize="10sp"
                 android:textColor="@color/nightmarket_text_muted" />
 
-            <!-- Seller Incoming Message 1 -->
+            <!-- Seller Incoming Message 1 (Default greeting) -->
             <LinearLayout
+                android:id="@+id/layoutSellerInitialContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -167,27 +194,29 @@
                         android:id="@+id/tvSellerInitialMessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hey! Yes, it's still available. I can show it after class today."
+                        android:text="Hey! Thanks for your interest in this listing."
                         android:textSize="13sp"
                         android:textColor="@color/nightmarket_text_primary" />
 
                     <TextView
+                        android:id="@+id/tvSellerInitialTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginTop="4dp"
-                        android:text="10:33 AM"
+                        android:text="Seller"
                         android:textSize="9sp"
                         android:textColor="@color/nightmarket_text_muted" />
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Buyer Outgoing Message (Dynamic container appends here) -->
+            <!-- Buyer Outgoing Message (Demo placeholder hidden) -->
             <LinearLayout
                 android:id="@+id/layoutBuyerDemoMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:visibility="gone"
                 android:gravity="end"
                 android:orientation="horizontal">
 

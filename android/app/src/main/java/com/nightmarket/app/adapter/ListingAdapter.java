@@ -149,6 +149,16 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
                     break;
             }
 
+            // Real photo display via ImageLoader
+            String primaryImg = item.getPrimaryImageUrl();
+            if (primaryImg != null && !primaryImg.trim().isEmpty()) {
+                com.nightmarket.app.util.ImageLoader.getInstance().loadImage(ivProductImage, primaryImg, tvArtworkPlaceholder);
+            } else {
+                ivProductImage.setImageDrawable(null);
+                ivProductImage.setVisibility(View.GONE);
+                tvArtworkPlaceholder.setVisibility(View.VISIBLE);
+            }
+
             // Saved heart toggle
             boolean isSaved = repository.isListingSaved(item.getId());
             updateHeartIcon(isSaved);
