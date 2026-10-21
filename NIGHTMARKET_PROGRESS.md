@@ -126,3 +126,26 @@
   9. Android Build: `.\gradlew.bat assembleDebug` -> **BUILD SUCCESS** in 6s.
   10. Backend Automated Test Suite: `mvn test` -> **BUILD SUCCESS** (6 unit tests passing across abstraction, inheritance, polymorphism, encapsulation, validation, and offer contracts).
   11. Android Automated Test Suite: `.\gradlew.bat testDebugUnitTest` -> **BUILD SUCCESS** (JUnit unit tests passing for Gson deserialization, price formatting, and seller initials calculation).
+
+---
+
+## Checkpoint 7–12 — Live Render Deployment & Full-Stack Android Integration
+- **Status**: COMPLETED & VERIFIED LIVE
+- **Render Production Service**: `https://oops-project-pwxc.onrender.com/`
+- **Live Health Endpoint**: `https://oops-project-pwxc.onrender.com/api/health` -> `{"status":"UP","service":"nightmarket-backend","database":"CONNECTED"}`
+- **Atlas Outbound IPs**: `74.220.48.0/24` and `74.220.56.0/24` active in MongoDB Atlas Network Access; database operations confirmed working over live HTTPS.
+- **Live Endpoints Verified with MongoDB Atlas**:
+  1. `GET /api/health` -> HTTP 200 `{"status":"UP","database":"CONNECTED"}`
+  2. `GET /api/listings/feed` -> HTTP 200 returning persistent Atlas feed
+  3. `GET /api/listings/search?q=Casio` -> HTTP 200 searching Atlas collection
+  4. `GET /api/listings/{id}` -> HTTP 200 with polymorphic category summary & safety checklist
+  5. `POST /api/listings/add` -> HTTP 200 inserting new listing into Atlas with auto-generated UUID
+  6. `POST /api/listings/{id}/mark-sold` -> HTTP 200 mutating status to `SOLD` in Atlas and removing from active feed
+- **Android Integration**:
+  - Configured `nightmarketApiBaseUrl = 'https://oops-project-pwxc.onrender.com/'` in `android/app/build.gradle`, `android/gradle.properties`, and `ApiClient.java`.
+  - Bytecode compiled `BuildConfig.API_BASE_URL` with the HTTPS production endpoint.
+  - Retained local emulator fallback toggle for offline testing.
+- **Android Verification**:
+  - `.\gradlew.bat testDebugUnitTest` -> **BUILD SUCCESSFUL** (17s).
+  - `.\gradlew.bat assembleDebug` -> **BUILD SUCCESSFUL** (17s).
+  - Generated APK verified: `android/app/build/outputs/apk/debug/app-debug.apk` (6,281,495 bytes).

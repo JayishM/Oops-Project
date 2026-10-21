@@ -23,7 +23,7 @@ public class ApiClient {
     static {
         String configuredUrl = BuildConfig.API_BASE_URL;
         if (configuredUrl == null || configuredUrl.trim().isEmpty()) {
-            configuredUrl = "http://10.0.2.2:8080/";
+            configuredUrl = "https://oops-project-pwxc.onrender.com/";
         } else if (!configuredUrl.endsWith("/")) {
             configuredUrl = configuredUrl + "/";
         }

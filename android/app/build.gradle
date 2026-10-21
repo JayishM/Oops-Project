@@ -3,7 +3,7 @@ plugins {
     id 'com.android.application'
 }
 
-def nightmarketApiBaseUrl = project.findProperty('nightmarketApiBaseUrl') ?: 'http://10.0.2.2:8080'
+def nightmarketApiBaseUrl = project.findProperty('nightmarketApiBaseUrl') ?: 'https://oops-project-pwxc.onrender.com/'
 
 android {
     namespace 'com.nightmarket.app'
